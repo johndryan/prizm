@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Step 3{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+
+	<h1>Upload/Take a Photo</h1>
+	<p>Add a photo for {{ name }}
+	<!-- <form action="/fingerprints" method="get" accept-charset="utf-8">
+		<p><label for="name">You Name:</label><input type="text" name="name" value="" id="name" /></p>
+		<p><input type="submit" value="Continue &rarr;"></p>
+	</form> -->
+	<p><img src="{{ url_for('static', filename='hand.png') }}" width="600" alt="{{ name }}'s photo" /></p>
+   
+	
+{% endblock %}
+
+{% block footer %}
+	{{ super() }}
+{% endblock %}

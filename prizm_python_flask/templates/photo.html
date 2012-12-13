@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Step 3{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+
+	<h1>Upload/Take a Photo</h1>
+	<p>Add a photo for {{ name }}
+	<!-- <form action="/fingerprints" method="get" accept-charset="utf-8">
+		<p><label for="name">You Name:</label><input type="text" name="name" value="" id="name" /></p>
+		<p><input type="submit" value="Continue &rarr;"></p>
+	</form> -->
+	<p><img src="{{ url_for('static', filename='face.png') }}" width="600" alt="{{ name }}'s photo" /></p>
+   
+	<h2>Now, place your hand over the hole</h2>
+	
+{% endblock %}
+
+{% block footer %}
+	{{ super() }}
+	<script type="text/javascript" charset="utf-8">
+		$(document).keypress(function(e) {
+			if(e.keyCode == 13) {
+				window.location = '/fingerprints/';
+			}
+		});
+	</script>
+{% endblock %}

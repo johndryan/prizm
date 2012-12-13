@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Step 1{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+    <h1>Driver's License Details</h1>
+	<form action="/license/" method="post" accept-charset="utf-8">
+		<p><textarea id="license_data" name="license_data" autofocus></textarea></p>
+		<!-- <p><label for="name">You Name:</label><input type="text" name="name" value="" id="name" /></p> -->
+		<p><input type="submit" value="Continue &rarr;"></p>
+	</form>
+{% endblock %}
+
+{% block footer %}
+	{{ super() }}
+	<script type="text/javascript" charset="utf-8">
+		var myCounter = 0;
+		$('#license_data').keypress(function(e) {
+			if(e.keyCode == 13) myCounter++;
+			if(myCounter >= 3) {
+				// SUBMIT after third return
+				$("form").submit();
+				// OR AFTER DELAY?
+			}
+		});
+	</script>
+{% endblock %}

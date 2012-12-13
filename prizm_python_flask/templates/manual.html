@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Step 2{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+
+<h1> TODO: Set up this form </h1>
+
+<h2>Sorry card format not read, please enter details manually</h2>
+
+<form action="/license/" method="post" accept-charset="utf-8">
+	<input type="hidden" name="id" value="{{ userid }}" id="id">
+	<p><label for="name">You Name:</label><input type="text" name="name" value="" id="name" /></p>
+	<p><input type="submit" value="Continue &rarr;"></p>
+</form>
+	
+{% endblock %}
+
+{% block footer %}
+	{{ super() }}
+{% endblock %}

@@ -1,0 +1,11 @@
+<!doctype html>
+<title>Multiplex.me | Services</title>
+
+	<h1>Twitter</h1>
+	<ul class="entries">
+		{% for s in statuses %}
+		<li>{{ s.text|safe }}</li>
+		{% else %}
+		<li><em>NO TWEETS</em></li>
+		{% endfor %}
+	</ul>

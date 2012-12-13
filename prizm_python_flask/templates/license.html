@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Step 2{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+
+    <h1>Driver's License Details</h1>
+	<p>{{ user.forename}} {{ user.middle_name}} {{ user.surname }}</p>
+	<p>{{ user.street }}<br />
+		{{ user.city }} {{ user.state }} {{ user.zipcode }}</p>
+	<p>D.O.B. {{ user.dob.strftime('%m-%d-%Y') }}</p>
+	<p>{{ user.gender }}</p>
+	<p>{{ user.height }}</p>
+	<p>{{ user.hair }} hair and {{ user.eyes }} eyes</p>
+	<p>{{ user.drivers_license }}</p>
+	<!--{{ user.data }}-->
+	
+	<h2>Please look at camera for your photograph.</h2>
+	<p>Press RETURN when ready</p>
+	
+{% endblock %}
+
+{% block footer %}
+	{{ super() }}
+	<script type="text/javascript" charset="utf-8">
+		$(document).keypress(function(e) {
+			if(e.keyCode == 13) {
+				window.location = '/photo/';
+			}
+		});
+	</script>
+{% endblock %}
