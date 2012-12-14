@@ -4,10 +4,18 @@
 
 import diewald_bardcode.*;
 import diewald_bardcode.CONSTANTS.*;
+import de.bezier.data.sql.*;
 
+String user     = "multiplex";
+String pass     = "password";
+String database = "multiplex";
+String host     = "johnryan.artcenter.edu";
+
+MySQL mysql;
 Mux mux;
 
-int refreshFrequency = 1 * 60;
+int numUsersForMux = 5;
+int refreshFrequency = 60 * 60;
 int magStripHeight = 150;
 int cornerRadius = 70;
 float threshold = 160;
@@ -21,11 +29,11 @@ int colors[][] = {  {255,221,20},
                     {240,100,33},
                     {0,160,74},
                     {0,0,0}  };
-String url = "http://johnryan.artcenter.edu:5000/static/captured/face";
+String url = "http://johnryan.artcenter.edu/prizm/prizm_python_flask/static/captured/face";
 int imageSize = 490;
 PImage composite = createImage(imageSize, imageSize, RGB);
-int[] whichFaces = {1,2,4,6,7,8,11,12};
-PImage[] faces = new PImage[whichFaces.length];
+//int[] whichFaces = {1,2,4,6,7,8,11,12};
+PImage[] faces = new PImage[numUsersForMux];
 int r, g, b;
 color tempPixel;
 
@@ -56,21 +64,25 @@ void setup() {
   
   mux = new Mux(0," ");
   
+  mysql = new MySQL( this, host, database, user, pass );
+  
   multiplexMe();
 } 
 
 void draw() {
   timer++;
   if(timer > refreshFrequency) {
-    multiplexMe();
     timer = 0;
+    multiplexMe();
   }
 }
 
 void multiplexMe() {
-    mux.update();
   
+    mux.update();
+    
     background(255);
+    
     int layout = (int)random(4);
     
     drawBackground();
@@ -133,8 +145,8 @@ void drawStrip(int layout) {
 void createPhoto() {
   composite.loadPixels();
 
-  for (int i = 0; i < whichFaces.length; i++) {
-    faces[i] = loadImage(url + whichFaces[i] + ".png", "png");
+  for (int i = 0; i < numUsersForMux; i++) {
+    faces[i] = loadImage(url + mux.whichFaces[i] + ".png", "png");
     faces[i].resize(imageSize,imageSize);
     faces[i].loadPixels();
   }
@@ -143,13 +155,13 @@ void createPhoto() {
     r = 0;
     g = 0;
     b = 0;
-    for (int j = 0; j < whichFaces.length; j++) {
+    for (int j = 0; j < numUsersForMux; j++) {
       int pixelColor = faces[j].pixels[i];
       r += (pixelColor >> 16) & 0xff;
       g += (pixelColor >> 8) & 0xff;
       b += pixelColor & 0xff;
     }
-    tempPixel = color(int(r/whichFaces.length),int(g/whichFaces.length),int(b/whichFaces.length));
+    tempPixel = color(int(r/numUsersForMux),int(g/numUsersForMux),int(b/numUsersForMux));
     composite.pixels[i] = tempPixel;
   }
 
