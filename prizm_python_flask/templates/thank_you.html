@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Step 3{% endblock %}
+{% block input %}hand{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+
+	<h1>Fingerprint Contribution</h1>
+	<p>Place your hand over the fingerprint scanner. Press RETURN to capture.</p>
+	<p><img src="/static/captured/hand{{ user_id }}.png" width="200" alt="{{ name }}'s fingers" /></p>
+	<p class="note">To decline, press RETURN.</p>
+	<form action="/thank_you/" method="post" accept-charset="utf-8" class="hidden">
+		<input type="hidden" name="user_id" value="{{ user.id }}" id="user_id">
+		<p><input type="submit" value="Continue &rarr;"></p>
+	</form>
+	
+{% endblock %}
+
+{% block footer %}
+	{{ super() }}
+{% endblock %}

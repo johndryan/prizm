@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}Step 1{% endblock %}
+{% block input %}card{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -8,26 +9,31 @@
 
 {% block content %}
 
-    <h1>Driver's License Details</h1>
+    <h1>ID Card Contribution</h1>
+	<p>Please begin your personal contributions by swiping your driver's license.</p>
+	<p class="note">To decline, press RETURN three times.</p>
 	<form action="/license/" method="post" accept-charset="utf-8" class="hidden">
 		<p><textarea id="license_data" name="license_data" autofocus></textarea></p>
 		<!-- <p><label for="name">You Name:</label><input type="text" name="name" value="" id="name" /></p> -->
 		<p><input type="submit" value="Continue &rarr;"/></p>
 	</form>
+	
+	<div id="overlay">
+		<img src="../static/start_screen.png" width="1280" height="1024" alt="Welcome to PRIZM"/>
+	</div>
 {% endblock %}
 
 {% block footer %}
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-	<script type="text/javascript" charset="utf-8">
-		var myCounter = 0;
-		$(':submit').hide();
-		$('#license_data').keypress(function(e) {
-			if(e.keyCode == 13) myCounter++;
-			if(myCounter >= 3) {
-				// SUBMIT after third return
-				$("form").submit();
-				// OR AFTER DELAY?
-			}
-		});
-	</script>
+	var myCounter = 0;
+	$(':submit').hide();
+	$('#license_data').keypress(function(e) {
+		if(e.keyCode == 13) myCounter++;
+		if(myCounter >= 3) {
+			// SUBMIT after third return
+			$("form").submit();
+			// OR AFTER DELAY?
+		}
+	});
+	$('#overlay').delay(1500).fadeOut(1500);
+	$('p.note').delay(10000).fadeIn(1500);
 {% endblock %}

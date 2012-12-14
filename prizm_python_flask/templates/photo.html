@@ -1,22 +1,16 @@
 {% extends "base.html" %}
 {% block title %}Step 3{% endblock %}
+{% block input %}hand{% endblock %}
 {% block head %}
     {{ super() }}
 {% endblock %}
 {% block content %}
 
-	<h1>Upload/Take a Photo [{{ user_id }}]</h1>
-	<p>Add a photo for {{ name }}
-	<!-- <form action="/fingerprints" method="get" accept-charset="utf-8">
-		<p><label for="name">You Name:</label><input type="text" name="name" value="" id="name" /></p>
-		<p><input type="submit" value="Continue &rarr;"></p>
-	</form> -->
-	<p><img src="/static/captured/face{{ user_id }}.png" width="600" alt="{{ name }}'s photo" /></p>
-   
-	<h2>Now, place your hand over the hole</h2>
+	<h1>Fingerprint Contribution</h1>
+	<p>Place your hand over the fingerprint scanner. Press RETURN to capture.</p>
+	<p><img src="/static/captured/face{{ user_id }}.png" width="200" alt="{{ name }}'s fingers" /></p>
+	<p class="note">To decline, press RETURN.</p>
 	
-	<h2>Please look at camera for your photograph.</h2>
-	<p>Press RETURN when ready</p>
 	<form action="/fingerprints/" method="post" accept-charset="utf-8">
 		<input type="hidden" name="user_id" value="{{ user_id }}" id="user_id" />
 		<p><input type="submit" value="Continue &rarr;"></p>

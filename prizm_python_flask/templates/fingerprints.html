@@ -1,25 +1,19 @@
 {% extends "base.html" %}
 {% block title %}Step 3{% endblock %}
+{% block input %}thank_you{% endblock %}
 {% block head %}
     {{ super() }}
 {% endblock %}
 {% block content %}
 
-	<h1>Upload/Take a Photo</h1>
-	<p>Add a photo for {{ name }}
-	<!-- <form action="/fingerprints" method="get" accept-charset="utf-8">
-		<p><label for="name">You Name:</label><input type="text" name="name" value="" id="name" /></p>
-		<p><input type="submit" value="Continue &rarr;"></p>
-	</form> -->
-	<p><img src="/static/captured/hand{{ user_id }}.png" width="600" alt="{{ name }}'s fingers" /></p>
-	<!-- <form action="/thank_you/" method="post" accept-charset="utf-8">
-		<input type="hidden" name="user_id" value="{{ user_id }}" id="user_id">
-		<p><input type="submit" value="Continue &rarr;"></p>
-	</form> -->
-	<h2>Thank You - Back to Start</h2>
+	<h1>Thank You</h1>
+	<p>You contributions are currently being multiplexed.</p>
+	<p><img src="/static/captured/hand{{ user_id }}.png" width="200" alt="{{ name }}'s fingers" /></p>
 	
 {% endblock %}
 
 {% block footer %}
-	{{ super() }}
+	window.setTimeout(function() {
+    	window.location.href = 'http://www.google.com';
+	}, 8000);
 {% endblock %}

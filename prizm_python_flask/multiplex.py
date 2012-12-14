@@ -4,7 +4,7 @@
 # IMPORTS + SETUP
 # ---------------------------------------------------------------------
 
-connected = False
+connected = True
 arduinoPort = "/dev/tty.usbmodemfa131"  # Front USB port on MacBook Pro
 
 from flask import Flask
@@ -85,7 +85,8 @@ def license():
         db.session.commit()
         
         return render_template('license.html', user=user)
-    else:    
+    else:
+        switch_led(3)
         # TODO: Fall back if not read correctly?
         
         db.session.add(user)
@@ -132,6 +133,10 @@ def twitter():
     api = twitter.Api()
     statuses = api.GetUserTimeline(username)
     return render_template('twitter.html',statuses=statuses)
+
+@app.route('/thank_you/', methods=['POST', 'GET'])
+def thank_you():
+    return render_template('thank_you.html', user_id = user_id)
 
 @app.errorhandler(404)
 def error_handler(e):

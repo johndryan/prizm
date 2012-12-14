@@ -8,19 +8,21 @@
     <title>{% block title %}{% endblock %} - PRISM</title>
     {% endblock %}
 </head>
-<body>
+<body class="{% block input %}{% endblock %}">
     <div id="content">
 		{% block content %}{% endblock %}
 	</div>
-	{% block footer %}
+
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 	<script type="text/javascript" charset="utf-8">
+	{% block footer %}
 		$(':submit').hide();
 		$(document).keypress(function(e) {
 			if(e.keyCode == 13) {
 				$("form").submit();
 			}
 		});
-	</script>
+		$('p.note').delay(5000).fadeIn(1500);
 	{% endblock %}
+	</script>
 </body>

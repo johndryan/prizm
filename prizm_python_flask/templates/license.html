@@ -1,11 +1,30 @@
 {% extends "base.html" %}
 {% block title %}Step 2{% endblock %}
+{% block input %}camera{% endblock %}
 {% block head %}
     {{ super() }}
 {% endblock %}
 {% block content %}
 
-    <h1>Driver's License Details [{{ user.id }}]</h1>
+<h1>Photo Contribution</h1>
+<p>Thank you, {{ user.surname }}.</p>
+<p>Face the camera for a photograph: press RETURN when ready.</p>
+<code><pre>
+	-- {{ user.surname }}
+	-- {{ user.forename}} {{ user.middle_name}}
+	-- {{ user.street }}
+	-- {{ user.city }}
+	-- {{ user.state }} {{ user.zipcode }}
+	-- {{ user.dob }}
+	-- {{ user.gender }}
+	-- {{ user.height }} inches
+	-- {{ user.hair }} hair
+	-- {{ user.eyes }} eyes
+</pre></code>
+	
+<p class="note">Processing Data. One Moment.</p>
+
+    <!--<h1>Driver's License Details [{{ user.id }}]</h1>
 	<p>{{ user.forename}} {{ user.middle_name}} {{ user.surname }}</p>
 	<p>{{ user.street }}<br />
 		{{ user.city }} {{ user.state }} {{ user.zipcode }}</p>
@@ -15,10 +34,7 @@
 	<p>{{ user.hair }} hair and {{ user.eyes }} eyes</p>
 	<p>{{ user.drivers_license }}</p>
 	<!--{{ user.data }}-->
-	
-	<h2>Please look at camera for your photograph.</h2>
-	<p>Press RETURN when ready</p>
-	<form action="/photo/" method="post" accept-charset="utf-8">
+	<form action="/photo/" method="post" accept-charset="utf-8" class="hidden">
 		<input type="hidden" name="manual" value="false" id="manual" />
 		<input type="hidden" name="user_id" value="{{ user.id }}" id="user_id">
 		<p><input type="submit" value="Continue &rarr;"></p>
@@ -28,4 +44,7 @@
 
 {% block footer %}
 	{{ super() }}
+	$('pre').animate({
+		top: "-600px"
+	}, 25000 );
 {% endblock %}
