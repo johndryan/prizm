@@ -2,7 +2,9 @@
 
 body {
 	padding: 150px 50px;
-	background: black;
+	background-color: black;
+	background-position: -20px top;
+	background-repeat: no-repeat;
 	color: white;
 	font-family: Klavika;
 	position: relative;
@@ -40,6 +42,7 @@ p {
 	width: 100%;
 	position: absolute;
 	top: 0;
+	left: -20px;
 	z-index: 1;
 	width: 1280px;
 	height: 1024px;
@@ -47,19 +50,19 @@ p {
 }
 
 body.card {
-	background: black url(bg_card.png) center top no-repeat;
+	background-image: url(bg_card.png);
 }
 
 body.keyboard {
-	background: black url(bg_keyboard.png) center top no-repeat;
+	background:  url(bg_keyboard.png);
 }
 
 body.camera {
-	background: black url(bg_camera.png) center top no-repeat;
+	background: url(bg_camera.png);
 }
 
 body.hand {
-	background: black url(bg_hand.png) center top no-repeat;
+	background: url(bg_hand.png);
 }
 
 p.note {

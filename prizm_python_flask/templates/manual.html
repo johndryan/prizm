@@ -10,9 +10,8 @@
 
 <p>Your card data was insufficient. Please contribute the following:</p>
 
-<form action="/photo/" method="post" accept-charset="utf-8" class="visible">
-	<input type="hidden" name="user_id" value="{{ user_id }}" id="user_id">
-	<input type="hidden" name="manual" value="true" id="manual" />
+<form action="/manual/" method="post" accept-charset="utf-8" class="visible">
+	<input type="hidden" name="manual" value="yes" id="manual" />
 	<p><label for="forename">Forename:</label><input type="text" name="forename" value="" id="forename" autofocus/></p>
 	<p><label for="surname">Surname:</label><input type="text" name="surname" value="" id="surname" /></p>
 	<p><label for="city">City:</label><input type="text" name="city" value="" id="city" /></p>

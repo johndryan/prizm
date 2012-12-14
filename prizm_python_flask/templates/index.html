@@ -13,6 +13,7 @@
 	<p>Please begin your personal contributions by swiping your driver's license.</p>
 	<p class="note">To decline, press RETURN three times.</p>
 	<form action="/license/" method="post" accept-charset="utf-8" class="hidden">
+		<input type="hidden" name="manual" value="false" id="manual" />
 		<p><textarea id="license_data" name="license_data" autofocus></textarea></p>
 		<!-- <p><label for="name">You Name:</label><input type="text" name="name" value="" id="name" /></p> -->
 		<p><input type="submit" value="Continue &rarr;"/></p>

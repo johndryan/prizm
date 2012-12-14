@@ -12,7 +12,7 @@ from flask import render_template
 from flask import request
 app = Flask(__name__)
 #app.run(host= 'johnryan.artcenter.edu') 
-app.debug = False
+app.debug = True
 
 from datetime import *
 import time
@@ -43,12 +43,20 @@ def license():
     # If CA format: lines[0][1:3] = CA
     
     # GET USER ID
-    
+    # print("Pretesting for manual")
     # DECODE LICENSE
     data = request.form['license_data']
-    user = User(data)
+    
+    # print data
+    # print data[1:3] == "CA"
+    # 
+    # print("Testing for manual")
+    
     # RECORD data TO MYSQL ANYWAY?
+
     if data[1:3] == "CA":
+        user = User(data)
+        
         lines = data.split('\n')
         line_one = lines[0].split('^')
 
@@ -89,24 +97,30 @@ def license():
         switch_led(3)
         # TODO: Fall back if not read correctly?
         
-        db.session.add(user)
-        db.session.commit()
+        return render_template('manual.html')
+
+@app.route('/manual/', methods=['POST', 'GET'])
+def manual():
+    switch_led(4)
+    print "DETECTED MANUAL"
+    #Manually added
         
-        return render_template('manual.html', user_id = user.id)
+    user = User("Manually Added")
+    #user = User.query.get(user_id)
+    user.forename = request.form['forename']
+    user.surname = request.form['surname']
+    user.city = request.form['city']
+        
+    db.session.add(user)
+    db.session.commit()
+        
+    #user_id = user.id
+    print "RENDER TEMPLATE"
+    return render_template('license_alt.html', user=user)
 
 @app.route('/photo/', methods=['POST', 'GET'])
 def photo():
     user_id = request.form['user_id']
-    if request.form['manual'] == "true":
-        print "Manual - user #%s" % user_id
-        #Manually added
-        user = User.query.get(user_id)
-        user.forename = request.form['forename']
-        user.surname = request.form['surname']
-        user.city = request.form['city']
-        db.session.commit()
-    else:
-        print "Automatic - user #%s" % user_id
     if connected:
         os.system("python ext_scripts/cv2_face.py face %s" % user_id)
     switch_led(2)
