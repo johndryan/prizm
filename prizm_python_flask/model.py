@@ -19,7 +19,7 @@ class User(db.Model):
     city = db.Column(db.String(24))
     state = db.Column(db.String(24))
     zipcode = db.Column(db.Integer)
-    dob = db.Column(db.Date)
+    dob = db.Column(db.String(10))
     data = db.Column(db.Text)
     gender = db.Column(db.String(6))
     height = db.Column(db.Integer)

@@ -5,11 +5,11 @@
 {% endblock %}
 {% block content %}
 
-    <h1>Driver's License Details</h1>
+    <h1>Driver's License Details [{{ user.id }}]</h1>
 	<p>{{ user.forename}} {{ user.middle_name}} {{ user.surname }}</p>
 	<p>{{ user.street }}<br />
 		{{ user.city }} {{ user.state }} {{ user.zipcode }}</p>
-	<p>D.O.B. {{ user.dob.strftime('%m-%d-%Y') }}</p>
+	<p>D.O.B. {{ user.dob }}</p>
 	<p>{{ user.gender }}</p>
 	<p>{{ user.height }}</p>
 	<p>{{ user.hair }} hair and {{ user.eyes }} eyes</p>
@@ -18,16 +18,14 @@
 	
 	<h2>Please look at camera for your photograph.</h2>
 	<p>Press RETURN when ready</p>
+	<form action="/photo/" method="post" accept-charset="utf-8">
+		<input type="hidden" name="manual" value="false" id="manual" />
+		<input type="hidden" name="user_id" value="{{ user.id }}" id="user_id">
+		<p><input type="submit" value="Continue &rarr;"></p>
+	</form>
 	
 {% endblock %}
 
 {% block footer %}
 	{{ super() }}
-	<script type="text/javascript" charset="utf-8">
-		$(document).keypress(function(e) {
-			if(e.keyCode == 13) {
-				window.location = '/photo/';
-			}
-		});
-	</script>
 {% endblock %}

@@ -3,6 +3,7 @@
 <head>
     {% block head %}
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='baseline.compress.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <title>{% block title %}{% endblock %} - PRISM</title>
     {% endblock %}
@@ -13,5 +14,13 @@
 	</div>
 	{% block footer %}
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		$(':submit').hide();
+		$(document).keypress(function(e) {
+			if(e.keyCode == 13) {
+				$("form").submit();
+			}
+		});
+	</script>
 	{% endblock %}
 </body>

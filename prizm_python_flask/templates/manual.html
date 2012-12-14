@@ -5,13 +5,16 @@
 {% endblock %}
 {% block content %}
 
-<h1> TODO: Set up this form </h1>
+<h1> TODO: Set up this form [{{ user_id }}]</h1>
 
 <h2>Sorry card format not read, please enter details manually</h2>
 
-<form action="/license/" method="post" accept-charset="utf-8">
-	<input type="hidden" name="id" value="{{ userid }}" id="id">
-	<p><label for="name">You Name:</label><input type="text" name="name" value="" id="name" /></p>
+<form action="/photo/" method="post" accept-charset="utf-8">
+	<input type="hidden" name="user_id" value="{{ user_id }}" id="user_id">
+	<input type="hidden" name="manual" value="true" id="manual" />
+	<p><label for="forename">Forename:</label><input type="text" name="forename" value="" id="forename" autofocus/></p>
+	<p><label for="surname">Surname:</label><input type="text" name="surname" value="" id="surname" /></p>
+	<p><label for="city">City:</label><input type="text" name="city" value="" id="city" /></p>
 	<p><input type="submit" value="Continue &rarr;"></p>
 </form>
 	

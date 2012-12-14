@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
 # IMPORTS + SETUP
@@ -56,7 +56,9 @@ def license():
         user.state = lines[0][1:3]
         user.city = line_one[0][3:].title()
         user.zipcode = lines[2][3:8]
-    
+        
+        #googleImage(user.city)
+        
         # NAME
         name = line_one[1].split('$')
         user.forename = name[1].capitalize()
@@ -65,7 +67,8 @@ def license():
             user.middle_name = name[2].capitalize()
     
         # OTHER DETAILS
-        user.dob = datetime.strptime(lines[1][21:29],"%Y%m%d")  
+        # user.dob = datetime.strptime(lines[1][21:29],"%Y%m%d")  
+        user.dob = lines[1][21:29]
         if lines[2][30:31] == 'M':
             user.gender = 'Male'
         else: user.gender = 'Female'
@@ -85,27 +88,40 @@ def license():
         db.session.add(user)
         db.session.commit()
         
-        return render_template('manual.html', userid = user.id)
+        return render_template('manual.html', user_id = user.id)
 
 @app.route('/photo/', methods=['POST', 'GET'])
 def photo():
+    user_id = request.form['user_id']
+    if request.form['manual'] == "true":
+        print "Manual - user #%s" % user_id
+        #Manually added
+        user = User.query.get(user_id)
+        user.forename = request.form['forename']
+        user.surname = request.form['surname']
+        user.city = request.form['city']
+        db.session.commit()
+    else:
+        print "Automatic - user #%s" % user_id
     if connected:
-        os.system("python ext_scripts/cv2_cam.py face current_user")
+        os.system("python ext_scripts/cv2_face.py face %s" % user_id)
     switch_led(2)
-    print("Taking photo of FACE for user %i" % current_user)
+    #print("Taking photo of FACE for user %s" % user_id)
     #time.sleep(2)
-    return render_template('photo.html')
+    return render_template('photo.html', user_id = user_id)
 
-@app.route('/fingerprints/')
+@app.route('/fingerprints/', methods=['POST', 'GET'])
 def fingerprints():
+    user_id = request.form['user_id']
     if connected:
-        os.system("python ext_scripts/cv2_cam.py hand current_user")
+        os.system("python ext_scripts/cv2_face.py hand %s" % user_id)
     switch_led(3)
-    return render_template('fingerprints.html')
+    return render_template('fingerprints.html', user_id = user_id)
 
-@app.route('/services/')
+@app.route('/services/', methods=['POST', 'GET'])
 def services():
-    return render_template('services.html')
+    user_id = request.form['user_id']
+    return render_template('services.html', user_id = user_id)
 
 @app.route('/twitter/', methods=['POST', 'GET'])
 def twitter():
@@ -114,11 +130,18 @@ def twitter():
     statuses = api.GetUserTimeline(username)
     return render_template('twitter.html',statuses=statuses)
 
+@app.errorhandler(404)
+def error_handler(e):
+    return render_template('manual.html'), 404
+
 # MISC FUNCTIONS
 # ---------------------------------------------------------------------
 def switch_led( led ):
     if connected:
         s.write('~L%s\n' % led)
+
+def googleImage( city ):
+    print city
 
 # MAIN
 # ---------------------------------------------------------------------
