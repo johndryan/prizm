@@ -7,7 +7,7 @@ import diewald_bardcode.CONSTANTS.*;
 import de.bezier.data.sql.*;
 
 String user     = "multiplex";
-String pass     = "password";
+String pass     = "prizm";
 String database = "multiplex";
 String host     = "johnryan.artcenter.edu";
 
@@ -15,7 +15,7 @@ MySQL mysql;
 Mux mux;
 
 int numUsersForMux = 5;
-int refreshFrequency = 60 * 60;
+int refreshFrequency = 10*1000;
 int magStripHeight = 150;
 int cornerRadius = 70;
 float threshold = 160;
@@ -40,11 +40,13 @@ color tempPixel;
 int timer;
 PImage horizontalStrip, verticalStrip, photo, photoMask, temp_map, stamp, barcode;
 PImage[] maps = new PImage[numMaps];
+PImage[] fingerprints = new PImage[5];
 EncodingResult result;
 PFont mainFont, labelFont, smallerFont;
 
 void setup() {
   size(1440, 960);
+//  frameRate(1);
   timer = 0;
 
 //  String[] fontList = PFont.list();
@@ -60,25 +62,29 @@ void setup() {
   for (int i = 0; i < numMaps; i++) {
     maps[i] = loadImage("map" + i + ".jpg", "jpg");
   }
+  for (int i = 0; i < 5; i++) {
+    fingerprints[i] = loadImage("fingerprint" + i + ".png", "png");
+  }
   stamp = loadImage("prism_stamp_white.png");
   
   mux = new Mux(0," ");
   
-  mysql = new MySQL( this, host, database, user, pass );
+//  mysql = new MySQL( this, host, database, user, pass );
   
   multiplexMe();
 } 
 
 void draw() {
   timer++;
-  if(timer > refreshFrequency) {
-    timer = 0;
+  if( millis() - timer >= refreshFrequency){
     multiplexMe();
+    timer = millis();
   }
 }
 
 void multiplexMe() {
-  
+       
+    mysql = new MySQL( this, host, database, user, pass );
     mux.update();
     
     background(255);
@@ -86,6 +92,8 @@ void multiplexMe() {
     int layout = (int)random(4);
     
     drawBackground();
+    
+    drawFingerprint(layout);
     
     createPhoto();
     drawPhoto(layout);
@@ -147,6 +155,7 @@ void createPhoto() {
 
   for (int i = 0; i < numUsersForMux; i++) {
     faces[i] = loadImage(url + mux.whichFaces[i] + ".png", "png");
+    // CREATE FALLBACK?
     faces[i].resize(imageSize,imageSize);
     faces[i].loadPixels();
   }
@@ -302,6 +311,30 @@ void drawQRBarcode(int layout) {
       image(barcode, barcodex, barcodey);
   }
   popMatrix();
+}
+
+void drawFingerprint(int layout) {
+  int x = 0;
+  int y = 0;
+  switch(layout) {
+    case 0: 
+      x = int(random(450,width-50-300));
+      y = int(random(50,height-50-300));
+      break;
+    case 1: 
+      x = int(random(450,width-50-300));
+      y = int(random(50,height-50-300));
+      break;
+    case 2:
+      x = int(random(50,width-50-300-450));
+      y = int(random(50,height-50-300));
+      break;
+    case 3:
+      x = int(random(450,width-50-300));
+      y = int(random(50,height-50-300));
+      break;
+  }
+  image(fingerprints[int(random(5))],x,y);
 }
 
 void drawText(int layout) {

@@ -1,10 +1,11 @@
 class Mux {
-   int id, year, month, date, numOfDates;
+   int id, year, month, date, numOfDates, currentRow;
    String name;
    String url;
    String dob;
    String temp, forename, middle, surname;
    int[] whichFaces = new int[numUsersForMux];
+   String[] dates;
  
    Mux(int _id, String _name) {
      id = _id;
@@ -16,12 +17,15 @@ class Mux {
    
    void update() {
       id++;
-      url = "http://multiplex.me/mux/" + id + "/";
       
+      println("New MUX #" + id);
+      url = "http://multiplex.me/mux/" + id + "/";
+      println("About to connect");
       if ( mysql.connect() ) {
+        println("Connected");
         //MYSQL
         mysql.query( "SELECT id, forename, middle_name, surname, dob FROM user ORDER BY RAND() LIMIT " + numUsersForMux);
-        int currentRow = 0;
+        currentRow = 0;
         forename = middle = surname = "";
         year = month = date = 0;
         numOfDates = numUsersForMux;
@@ -36,22 +40,22 @@ class Mux {
           if (temp.length() > 0) surname += temp.charAt((int)random(temp.length()));
           temp = mysql.getString("dob");
           if (temp != null) {
-            year += int(temp.substring(0, 4));
-            month += int(temp.substring(5, 7));
-            date += int(temp.substring(8, 10));
-            println(temp.substring(0, 4) + "/" + temp.substring(5, 7) + "/" + temp.substring(8,10));
+            dates = split(temp, '-');
+            year += int(dates[0]);
+            month += int(dates[1]);
+            date += int(dates[2]);
+            //println(dates[0] + "/" + dates[1] + "/" + dates[2]);
           } else {
             numOfDates--;
           }
           currentRow++;
         }
         
-        dob = int(year/numOfDates) + "-" + int(month/numOfDates)  + "-" + int(date/numOfDates);
+        if (numOfDates > 0) dob = year/numOfDates + "-" + month/numOfDates  + "-" + date/numOfDates;
         name = surname + ", " + forename + " " + middle;
-      } 
-      else {
+      } else {
         println("Connection Failed!");
       }
-      //mysql.close();
+      mysql.close();
    }
  }
