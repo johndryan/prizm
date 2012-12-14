@@ -7,22 +7,31 @@ import diewald_bardcode.CONSTANTS.*;
 
 Mux mux;
 
-int refreshFrequency = 10 * 60;
+int refreshFrequency = 1 * 60;
 int magStripHeight = 150;
 int cornerRadius = 70;
 float threshold = 160;
 int bgColorAlpha = 150;
 int qrcode_size = 250;
 int barcodeHeight = 150;
+int numMaps = 10;
 String qrcode_content = "PRIZM: The Multiplexed Self \n";
 int colors[][] = {  {255,221,20},
                     {235,28,35},
                     {240,100,33},
                     {0,160,74},
                     {0,0,0}  };
+String url = "http://johnryan.artcenter.edu:5000/static/captured/face";
+int imageSize = 490;
+PImage composite = createImage(imageSize, imageSize, RGB);
+int[] whichFaces = {1,2,4,6,7,8,11,12};
+PImage[] faces = new PImage[whichFaces.length];
+int r, g, b;
+color tempPixel;
 
 int timer;
-PImage horizontalStrip, verticalStrip, photo, photoMask, map1, map2, map3, temp_map, stamp, barcode;
+PImage horizontalStrip, verticalStrip, photo, photoMask, temp_map, stamp, barcode;
+PImage[] maps = new PImage[numMaps];
 EncodingResult result;
 PFont mainFont, labelFont, smallerFont;
 
@@ -40,9 +49,9 @@ void setup() {
   verticalStrip = loadImage("vertical_strip.png");
   photo = loadImage("test_face.jpg");
   photoMask = loadImage("photo_mask.png");
-  map1 = loadImage("test_map1.jpg");
-  map2 = loadImage("test_map2.jpg");
-//  map3 = loadImage("test_map1.jpg");
+  for (int i = 0; i < numMaps; i++) {
+    maps[i] = loadImage("map" + i + ".jpg", "jpg");
+  }
   stamp = loadImage("prism_stamp_white.png");
   
   mux = new Mux(0," ");
@@ -66,6 +75,7 @@ void multiplexMe() {
     
     drawBackground();
     
+    createPhoto();
     drawPhoto(layout);
     
     drawQRBarcode(layout);
@@ -82,10 +92,18 @@ void drawBackground() {
   randomColor("fill");
   rect(0,0,width,height);
   
-  doThreshold(map1);
+  int random1 = int(random(numMaps));
+  int random2 = int(random(numMaps));
+  int random3 = int(random(numMaps));
+  while (random1 == random2) random2 = int(random(numMaps));
+  while (random3 == random1 || random3 == random2) random2 = int(random(numMaps));
+  
+  doThreshold(maps[random1]);
   image(temp_map,0,0,width,height);
-  doThreshold(map2);
-  blend(temp_map, 0, 0, map2.width, map2.height, 0, 0, width, height, MULTIPLY);
+  doThreshold(maps[random2]);
+  blend(temp_map, 0, 0, maps[random2].width, maps[random2].height, 0, 0, width, height, MULTIPLY);
+  doThreshold(maps[random3]);
+  blend(temp_map, 0, 0, maps[random3].width, maps[random3].height, 0, 0, width, height, MULTIPLY);
   
   noStroke();
   fill(255, bgColorAlpha);
@@ -112,6 +130,32 @@ void drawStrip(int layout) {
   
 }
 
+void createPhoto() {
+  composite.loadPixels();
+
+  for (int i = 0; i < whichFaces.length; i++) {
+    faces[i] = loadImage(url + whichFaces[i] + ".png", "png");
+    faces[i].resize(imageSize,imageSize);
+    faces[i].loadPixels();
+  }
+
+  for (int i = 0; i < faces[0].pixels.length; i++) {
+    r = 0;
+    g = 0;
+    b = 0;
+    for (int j = 0; j < whichFaces.length; j++) {
+      int pixelColor = faces[j].pixels[i];
+      r += (pixelColor >> 16) & 0xff;
+      g += (pixelColor >> 8) & 0xff;
+      b += pixelColor & 0xff;
+    }
+    tempPixel = color(int(r/whichFaces.length),int(g/whichFaces.length),int(b/whichFaces.length));
+    composite.pixels[i] = tempPixel;
+  }
+
+  composite.updatePixels();
+}
+
 void drawPhoto(int layout) {
   pushMatrix();
   switch(layout) {
@@ -128,8 +172,8 @@ void drawPhoto(int layout) {
       translate(90, 90);
       break;
   }
-  photo.mask(photoMask);
-  image(photo, 0, 0);
+  composite.mask(photoMask);
+  image(composite, -61, 0);
   strokeWeight(10);
   randomColor("stroke");
   beginShape();
