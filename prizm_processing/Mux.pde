@@ -57,5 +57,6 @@ class Mux {
         println("Connection Failed!");
       }
       mysql.close();
+      println("Closed");
    }
  }

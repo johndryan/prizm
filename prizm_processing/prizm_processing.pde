@@ -15,11 +15,11 @@ MySQL mysql;
 Mux mux;
 
 int numUsersForMux = 5;
-int refreshFrequency = 10*1000;
+int refreshFrequency = 2*1000;
 int magStripHeight = 150;
 int cornerRadius = 70;
 float threshold = 160;
-int bgColorAlpha = 150;
+int bgColorAlpha = 100;
 int qrcode_size = 250;
 int barcodeHeight = 150;
 int numMaps = 10;
@@ -91,8 +91,10 @@ void multiplexMe() {
     
     int layout = (int)random(4);
     
+    println("drawBackground");
     drawBackground();
     
+    println("drawFingerprint");
     drawFingerprint(layout);
     
     createPhoto();
@@ -104,6 +106,7 @@ void multiplexMe() {
     
     drawStrip(layout);
     
+    println("drawCorners");
     drawCorners();
     timer = millis();
 }
@@ -112,18 +115,22 @@ void drawBackground() {
   randomColor("fill");
   rect(0,0,width,height);
   
+  println("randomNums");
   int random1 = int(random(numMaps));
   int random2 = int(random(numMaps));
   int random3 = int(random(numMaps));
   while (random1 == random2) random2 = int(random(numMaps));
-  while (random3 == random1 || random3 == random2) random2 = int(random(numMaps));
-  
+  while (random3 == random1 || random3 == random2) random3 = int(random(numMaps));
+
+  println("Thresholding");  
   doThreshold(maps[random1]);
   image(temp_map,0,0,width,height);
   doThreshold(maps[random2]);
   blend(temp_map, 0, 0, maps[random2].width, maps[random2].height, 0, 0, width, height, MULTIPLY);
   doThreshold(maps[random3]);
   blend(temp_map, 0, 0, maps[random3].width, maps[random3].height, 0, 0, width, height, MULTIPLY);
+  
+  println("End");
   
   noStroke();
   fill(255, bgColorAlpha);
