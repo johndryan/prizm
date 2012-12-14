@@ -1,7 +1,12 @@
 #!/usr/local/bin/python
 
+# cam 0 is HAND
+# cam 1 is FACE
+
 import cv2
 import sys
+
+faces = HaarCascade("/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml")
 
 def take_photo(argv):
     which_cam = 0
