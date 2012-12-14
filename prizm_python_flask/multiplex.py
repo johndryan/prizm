@@ -4,14 +4,15 @@
 # IMPORTS + SETUP
 # ---------------------------------------------------------------------
 
-connected = True
-debug = True
+connected = False
 arduinoPort = "/dev/tty.usbmodemfa131"  # Front USB port on MacBook Pro
 
 from flask import Flask
 from flask import render_template
 from flask import request
 app = Flask(__name__)
+#app.run(host= 'johnryan.artcenter.edu') 
+app.debug = False
 
 from datetime import *
 import time
@@ -67,8 +68,10 @@ def license():
             user.middle_name = name[2].capitalize()
     
         # OTHER DETAILS
-        # user.dob = datetime.strptime(lines[1][21:29],"%Y%m%d")  
-        user.dob = lines[1][21:29]
+        month = int(lines[1][25:27])
+        if month > 12: month = 9
+        # user.dob = datetime.strptime(lines[1][21:29],"%Y%m%d")
+        user.dob = "%s-%02d-%s" % (lines[1][21:25], month, lines[1][27:29])
         if lines[2][30:31] == 'M':
             user.gender = 'Male'
         else: user.gender = 'Female'
@@ -150,9 +153,5 @@ if __name__ == '__main__':
     #Setup Arduino
     if connected :
         s = serial.Serial(port=arduinoPort, baudrate=9600)
-
-    current_user = 0
-
-    if debug :
-        app.debug = True
+        
     app.run()
