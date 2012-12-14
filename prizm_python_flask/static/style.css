@@ -1,3 +1,20 @@
 body {
 	padding: 100px;
+	background: black;
+	color: white;
+	font-family: Klavika;
 }
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Klavika Bold";
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+/*.hidden {
+	//width: 400px;
+	//margin-left: -999em;
+	//overflow: hidden;
+	position: absolute;
+	top: 800px;
+}*/
