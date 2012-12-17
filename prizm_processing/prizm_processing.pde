@@ -7,15 +7,15 @@ import diewald_bardcode.CONSTANTS.*;
 import de.bezier.data.sql.*;
 
 String user     = "multiplex";
-String pass     = "prizm";
+String pass     = "password";
 String database = "multiplex";
-String host     = "johnryan.artcenter.edu";
+String host     = "127.0.0.1";
 
 MySQL mysql;
 Mux mux;
 
 int numUsersForMux = 5;
-int refreshFrequency = 2*1000;
+int refreshFrequency = 5 * 1000;
 int magStripHeight = 150;
 int cornerRadius = 70;
 float threshold = 160;
@@ -29,7 +29,7 @@ int colors[][] = {  {255,221,20},
                     {240,100,33},
                     {0,160,74},
                     {0,0,0}  };
-String url = "http://johnryan.artcenter.edu/prizm/prizm_python_flask/static/captured/face";
+String url = "http://127.0.0.1/prizm/prizm_python_flask/static/captured/face";
 int imageSize = 490;
 PImage composite = createImage(imageSize, imageSize, RGB);
 //int[] whichFaces = {1,2,4,6,7,8,11,12};
