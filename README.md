@@ -9,6 +9,12 @@ PRIZM explores how individuality might be designed-out of these systems; creatin
 
 In obscuring the Self in the multiplexed collective, does there lie the potential to encourage and enable a kind of individuality beyond possessive Western Individualism?
 
+## Functionality
+
+This project takes a selection of personal information through a custom interface which includes a magnetic card swipe (for Driver's License and other card information), a camera with facial recognition, a custom fingerprint scanner (webcam and threshold image-processing) and a keyboard for text data entry. Over the course of the project's exhibition, data was collected from visitors and store in a local database. A second screen alongside the input interface displayed continually generated collective identities created from the submitted data.
+
+The project was developed using [Python](http://www.python.org), [Flask](http://flask.pocoo.org), [OpenCV](http://opencv.org), [Arduino](http://www.arduino.cc) and [Processing](http://processing.org).
+
 ## Further information
 
 - [Project Video on Vimeo](http://vimeo.com/johndryan/prizm)
