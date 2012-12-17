@@ -13,6 +13,6 @@ In obscuring the Self in the multiplexed collective, does there lie the potentia
 
 - [Project Video on Vimeo](http://vimeo.com/johndryan/prizm)
 - [Project Photos on Flickr](http://www.flickr.com/photos/johndryan/8277496460/)
-- [Blog post](http://blog.johndryan.me/post/38054215831/prizm-the-multiplexed-self-the-ubiquity-of-the)
+- [Blog post](http://blog.johndryan.me/post/38054215831/prizm)
 
 <p align="center"><img src="http://farm9.staticflickr.com/8202/8277496460_ce4d4b0f9c_z.jpg" alt="PRIZM System Interface" /></p>
